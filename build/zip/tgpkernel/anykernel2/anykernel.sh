@@ -1,5 +1,5 @@
 # -------------------------------
-# TGPKERNEL AROMA INSTALLER v2.14
+# TGPKERNEL AROMA INSTALLER v2.15
 # anykernel2 portion
 #
 # Anykernel2 created by #osm0sis
@@ -51,9 +51,11 @@ replace_file init.samsungexynos8895.rc 755 s8/init.samsungexynos8895.rc;
 replace_file init.services.rc 755 s8/init.services.rc;
 
 # Ramdisk changes - default.prop
+replace_string default.prop "ro.secure=0" "ro.secure=1" "ro.secure=0";
 replace_string default.prop "ro.debuggable=0" "ro.debuggable=1" "ro.debuggable=0";
 replace_string default.prop "persist.sys.usb.config=mtp,adb" "persist.sys.usb.config=mtp" "persist.sys.usb.config=mtp,adb";
 insert_line default.prop "persist.service.adb.enable=1" after "persist.sys.usb.config=mtp,adb" "persist.service.adb.enable=1";
+insert_line default.prop "persist.adb.notify=0" after "persist.service.adb.enable=1" "persist.adb.notify=0";
 insert_line default.prop "ro.securestorage.support=false" after "debug.atrace.tags.enableflags=0" "ro.securestorage.support=false";
 insert_line default.prop "ro.config.tima=0" after "ro.securestorage.support=false" "ro.config.tima=0";
 
@@ -66,28 +68,19 @@ replace_string fstab.ranchu "/dev/block/vda                                     
 # Ramdisk changes - init.rc
 insert_line init.rc "import /init.services.rc" after "import /init.fac.rc" "import /init.services.rc";
 
+# Ramdisk changes - Insecure ADB
+if egrep -q "install=1" "/tmp/aroma/insecureadb.prop"; then
+	ui_print "- Enabling Insecure ADB";
+	replace_file sbin/adbd 755 adbd/adbd;
+	replace_string default.prop "ro.adb.secure=0" "ro.adb.secure=1" "ro.adb.secure=0";
+fi;
+
 # Ramdisk changes - Spectrum
 if egrep -q "install=1" "/tmp/aroma/spectrum.prop"; then
 	ui_print "- Adding Spectrum";
 	replace_file init.spectrum.rc 644 spectrum/init.spectrum.rc;
 	replace_file init.spectrum.sh 644 spectrum/init.spectrum.sh;
 	insert_line init.rc "import /init.spectrum.rc" after "import /init.services.rc" "import /init.spectrum.rc";
-fi;
-if egrep -q "selected.1=1" "/tmp/aroma/spectrumprofile.prop"; then
-	ui_print "- Setting Balanced Spectrum Profile";
-	insert_line sbin/kernelinit.sh "\$BB sbin/resetprop persist.spectrum.profile 0" after "# Spectrum Profile" "\$BB sbin/resetprop persist.spectrum.profile 0";
-fi;
-if egrep -q "selected.1=2" "/tmp/aroma/spectrumprofile.prop"; then
-	ui_print "- Setting Performance Spectrum Profile";
-	insert_line sbin/kernelinit.sh "\$BB sbin/resetprop persist.spectrum.profile 1" after "# Spectrum Profile" "\$BB sbin/resetprop persist.spectrum.profile 1";
-fi;
-if egrep -q "selected.1=3" "/tmp/aroma/spectrumprofile.prop"; then
-	ui_print "- Setting Battery Spectrum Profile";
-	insert_line sbin/kernelinit.sh "\$BB sbin/resetprop persist.spectrum.profile 2" after "# Spectrum Profile" "\$BB sbin/resetprop persist.spectrum.profile 2";
-fi;
-if egrep -q "selected.1=4" "/tmp/aroma/spectrumprofile.prop"; then
-	ui_print "- Setting Gaming Spectrum Profile";
-	insert_line sbin/kernelinit.sh "\$BB sbin/resetprop persist.spectrum.profile 3" after "# Spectrum Profile" "\$BB sbin/resetprop persist.spectrum.profile 3";
 fi;
 
 # Ramdisk changes - SELinux (Fake) Enforcing Mode
