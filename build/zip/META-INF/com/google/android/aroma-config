@@ -1,5 +1,5 @@
 # -------------------------------
-# TGPKERNEL AROMA INSTALLER v2.13
+# TGPKERNEL AROMA INSTALLER v2.14
 # aroma-config portion
 #
 # Created by djb77 from XDA
@@ -23,6 +23,7 @@ writetmpfile("backup.prop","install=0");
 writetmpfile("busybox.prop","install=0");
 writetmpfile("g950x.prop","install=0");
 writetmpfile("g955x.prop","install=0");
+writetmpfile("insecureadb.prop","install=0");
 writetmpfile("magisk.prop","install=0");
 writetmpfile("mtweaks.prop","install=0");
 writetmpfile("selinux.prop","install=0");
@@ -195,7 +196,8 @@ if (prop("tgpkernel-restore.prop","install")=="0") then
 		"Install BusyBox", "", 0,
 		"Kernel Options", "", 2,
 		"Install Spectrum", "", 1,
-		"Set Kernel to Enforcing", "", 0
+		"Set Kernel to Enforcing", "", 0,
+		"Enable Insecure ADB", "", 0
 	);
 	if (prop("main.prop","item.1.1")=="1") then
 		writetmpfile("mtweaks.prop","install=1");
@@ -209,186 +211,8 @@ if (prop("tgpkernel-restore.prop","install")=="0") then
 	if (prop("main.prop","item.2.2")=="1") then
 		writetmpfile("selinux.prop","install=1");
 	endif;
-
-# SPECTRUM PROFILES
-# -----------------
-	if (prop("main.prop","item.2.1")=="1") then
-		selectbox(
-			"TGPKERNEL FOR S8 / S8+",
-			"Spectrum Profiles",
-			"",
-			"spectrumprofile.prop",
-			"Select a Spectrum Profile", "", 2,
-			"Balanced", "Smooth performance in basic tasks while maintaining fantastic battery", 1,
-			"Performance", "Top tier performance in standard tasks with many less regressions than Balanced, but maintains battery by limiting graphics", 0,
-			"Battery", "Ultra-conservative profile that lets performance take a hit in older to archive long-lasting battery life", 0,
-			"Gaming", "Identical to performance in most areas other than the unlocked Graphics performance", 0
-		);
-	endif;
-
-# ADVANCED OPTIONS
-# ----------------
-	if (prop("main.prop","item.2.4")=="1") then
-		writetmpfile("advanced.prop","install=1");
-		alert("WARNING !!", "           PLEASE PROCEED WITH CAUTION !!");
-
-# ADVANCED PAGE 1 - CPU GOVERNORS (BIG)
-# -------------------------------------
-		form(
-			"TGPKERNEL FOR S7 / S7 EDGE",
-			"TGPKernel Advanced Options",
-			"",
-			"governor-big.prop",
-			"governor-big", "Select your CPU Governor (Big CPU)", "", "group",
-			"alucard", "alucard", "", "select",
-			"barry_allen", "barry_allen", "", "select",
-			"bioshock", "bioshock", "", "select",
-			"blu_active", "blu_active", "", "select",
-			"cafactive", "cafactive", "", "select",
-			"conservative", "conservative", "", "select",
-			"dancedance", "dancedance", "", "select",
-			"darkness", "darkness", "", "select",
-			"electrodemand", "electrodemand", "", "select",
-			"HYPER", "hyper", "", "select",
-			"impulse", "impulse", "", "select",
-			"intelliactive", "intelliactive", "", "select",
-			"intellidemand", "intellidemand", "", "select",
-			"intellimm", "", "intellimm", "select",
-			"interactive", "interactive", "", "select.selected",
-			"ironactive", "ironactive", "", "select",
-			"Lionheart", "lionheart", "", "select",
-			"nightmare", "nightmare", "", "select",
-			"ondemand", "ondemand", "", "select",
-			"ondemandplus", "ondemandplus", "", "select",
-			"ondemand_x", "ondemand_x", "", "select",
-			"pegasusq", "pegasusq", "", "select",
-			"performance", "performance", "", "select",
-			"powersave", "powersave", "", "select",
-			"relaxed", "relaxed", "", "select",
-			"smartassV2", "smartassV2", "", "select",
-			"smartmax", "smartmax", "", "select",
-			"smartmax_eps", "smartmax_eps", "", "select",
-			"userspace", "userspace", "", "select",
-			"wheatley", "wheatley", "", "select",
-			"yankactive", "yankactive", "", "select",
-			"zzmoove", "zzmoove", "", "select"
-		);
-
-# ADVANCED PAGE 2 - CPU GOVERNORS (LITTLE)
-# ----------------------------------------
-		form(
-			"TGPKERNEL FOR S7 / S7 EDGE",
-			"TGPKernel Advanced Options",
-			"",
-			"governor-little.prop",
-			"governor-little", "Select your CPU Governor (Little CPU)", "", "group",
-			"alucard", "alucard", "", "select",
-			"barry_allen", "barry_allen", "", "select",
-			"bioshock", "bioshock", "", "select",
-			"blu_active", "blu_active", "", "select",
-			"cafactive", "cafactive", "", "select",
-			"conservative", "conservative", "", "select",
-			"dancedance", "dancedance", "", "select",
-			"darkness", "darkness", "", "select",
-			"electrodemand", "electrodemand", "", "select",
-			"HYPER", "hyper", "", "select",
-			"impulse", "impulse", "", "select",
-			"intelliactive", "intelliactive", "", "select",
-			"intellidemand", "intellidemand", "", "select",
-			"intellimm", "", "intellimm", "select",
-			"interactive", "interactive", "", "select.selected",
-			"ironactive", "ironactive", "", "select",
-			"Lionheart", "lionheart", "", "select",
-			"nightmare", "nightmare", "", "select",
-			"ondemand", "ondemand", "", "select",
-			"ondemandplus", "ondemandplus", "", "select",
-			"ondemand_x", "ondemand_x", "", "select",
-			"pegasusq", "pegasusq", "", "select",
-			"performance", "performance", "", "select",
-			"powersave", "powersave", "", "select",
-			"relaxed", "relaxed", "", "select",
-			"smartassV2", "smartassV2", "", "select",
-			"smartmax", "smartmax", "", "select",
-			"smartmax_eps", "smartmax_eps", "", "select",
-			"userspace", "userspace", "", "select",
-			"wheatley", "wheatley", "", "select",
-			"yankactive", "yankactive", "", "select",
-			"zzmoove", "zzmoove", "", "select"
-		);
-
-# ADVANCED PAGE 3 - IO SCHEDULERS (INTERNAL)
-# ------------------------------------------
-		form(
-			"TGPKERNEL FOR S7 / S7 EDGE",
-			"TGPKernel Advanced Options",
-			"",
-			"scheduler-internal.prop",
-			"scheduler-internal", "Select your IO Scheduler (Internal)", "", "group",
-			"bfq", "bfq", "", "select",
-			"cfq", "cfq", "", "select.selected",
-			"deadline", "deadline", "", "select",
-			"fifo", "fifo", "", "select",
-			"fiops", "fiops", "", "select",
-			"maple", "maple", "", "select",
-			"noop", "noop", "", "select",
-			"row", "row", "", "select",
-			"sio", "sio", "", "select",
-			"sioplus", "sioplus", "", "select",
-			"tripndroid", "tripndroid", "", "select",
-			"vr", "vr", "", "select",
-			"zen", "zen", "", "select"
-		);
-
-# ADVANCED PAGE 4 - IO SCHEDULERS (INTERNAL)
-# ------------------------------------------
-		form(
-			"TGPKERNEL FOR S7 / S7 EDGE",
-			"TGPKernel Advanced Options",
-			"",
-			"scheduler-external.prop",
-			"scheduler-external", "Select your IO Scheduler (External)", "", "group",
-			"bfq", "bfq", "", "select",
-			"cfq", "cfq", "", "select.selected",
-			"deadline", "deadline", "", "select",
-			"fifo", "fifo", "", "select",
-			"fiops", "fiops", "", "select",
-			"maple", "maple", "", "select",
-			"noop", "noop", "", "select",
-			"row", "row", "", "select",
-			"sio", "sio", "", "select",
-			"sioplus", "sioplus", "", "select",
-			"tripndroid", "tripndroid", "", "select",
-			"vr", "vr", "", "select",
-			"zen", "zen", "", "select"
-		);
-
-# ADVANCED PAGE 5 - CONGESTORS
-# ----------------------------
-		form(
-			"TGPKERNEL FOR S7 / S7 EDGE",
-			"TGPKernel Advanced Options",
-			"",
-			"tcp.prop",
-			"tcp", "Select your TCP Congestion Algorithm", "", "group",
-			"balia", "balia", "", "select",
-			"bic", "bic", "", "select.selected",
-			"cubic", "cubic", "", "select",
-			"dctcp", "dctcp", "", "select",
-			"htcp", "htcp", "", "select",
-			"hybla", "hybla", "", "select",
-			"illinois", "illinois", "", "select",
-			"lia", "lia", "", "select",
-			"lp", "lp", "", "select",
-			"olia", "olia", "", "select",
-			"reno", "reno", "", "select",
-			"scalable", "scalable", "", "select",
-			"vegas", "vegas", "", "select",
-			"veno", "veno", "", "select",
-			"westwood", "westwood", "", "select",
-			"wvegas", "wvegas", "", "select",
-			"yeah", "yeah", "", "select"
-		);
-
+	if (prop("main.prop","item.2.3")=="1") then
+		writetmpfile("insecureadb.prop","install=1");
 	endif;
 
 endif;

@@ -1,5 +1,5 @@
 # -------------------------------
-# TGPKERNEL AROMA INSTALLER v2.13
+# TGPKERNEL AROMA INSTALLER v2.14
 # updater-script portion
 #
 # Created by djb77 from XDA
@@ -142,16 +142,6 @@ then
 	run_program("/sbin/busybox", "unzip", "/tmp/supersu/supersu.zip", "META-INF/com/google/android/*", "-d", "/tmp/supersu");
 	run_program("/sbin/sh", "/tmp/supersu/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/supersu/supersu.zip");
 	delete_recursive("/tmp/supersu");
-	run_program("/sbin/sync");
-	if is_mounted("/system") == "/system" then
-	    assert(run_program("/sbin/busybox", "umount", "/system"));
-	endif;
-	if is_mounted("/data") == "/data" then
-	    assert(run_program("/sbin/busybox", "umount", "/data"));
-	endif;
-	if is_mounted("/cache") == "/cache" then
-	    assert(run_program("/sbin/busybox", "umount", "/cache"));
-	endif;
 endif;
 
 set_progress(0.70);
@@ -167,16 +157,6 @@ then
 	run_program("/sbin/busybox", "unzip", "/tmp/magisk/magisk.zip", "META-INF/com/google/android/*", "-d", "/tmp/magisk");
 	run_program("/sbin/sh", "/tmp/magisk/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/magisk/magisk.zip");
 	delete_recursive("/tmp/magisk");
-	run_program("/sbin/sync");
-	if is_mounted("/system") == "/system" then
-	    assert(run_program("/sbin/busybox", "umount", "/system"));
-	endif;
-	if is_mounted("/data") == "/data" then
-	    assert(run_program("/sbin/busybox", "umount", "/data"));
-	endif;
-	if is_mounted("/cache") == "/cache" then
-	    assert(run_program("/sbin/busybox", "umount", "/cache"));
-	endif;
 endif;
 
 set_progress(0.80);
@@ -192,16 +172,6 @@ then
 	run_program("/sbin/busybox", "unzip", "/tmp/bb/busybox.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");
 	run_program("/sbin/busybox", "sh", "/tmp/bb/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bb/busybox.zip");
 	delete_recursive("/tmp/bb");
-	run_program("/sbin/sync");
-	if is_mounted("/system") == "/system" then
-	    assert(run_program("/sbin/busybox", "umount", "/system"));
-	endif;
-	if is_mounted("/data") == "/data" then
-	    assert(run_program("/sbin/busybox", "umount", "/data"));
-	endif;
-	if is_mounted("/cache") == "/cache" then
-	    assert(run_program("/sbin/busybox", "umount", "/cache"));
-	endif;
 endif;
 
 set_progress(0.90);
